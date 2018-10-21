@@ -31,5 +31,12 @@ public class MQProperties {
      * switch of send message with vip channel
      */
     private Boolean vipChannelEnabled = Boolean.TRUE;
+    
+    /**
+     * 在声明同步模式发送失败之前，在内部执行的最大重试次数；
+     * 这可能导致消息重复，这取决于应用程序开发人员来解决；
+     * 与DefaultMQProducer中的属性保持相同默认值
+     */
+    private Integer retryTimesWhenSendFailed = 2;
 
 }

@@ -1,15 +1,16 @@
 package com.maihaoche.starter.mq.base;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.rocketmq.common.message.MessageExt;
-import org.springframework.util.Assert;
-
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
+
+import org.apache.rocketmq.common.message.MessageExt;
+import org.springframework.util.Assert;
+
+import com.alibaba.fastjson.JSONObject;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Description：RocketMQ消费抽象基类
@@ -19,7 +20,7 @@ import java.util.Map;
 @Slf4j
 public abstract class AbstractMQConsumer<T> {
 
-    protected static Gson gson = new Gson();
+//    protected static Gson gson = new Gson();
 
     /**
      * 反序列化解析消息
@@ -33,12 +34,13 @@ public abstract class AbstractMQConsumer<T> {
         }
         final Type type = this.getMessageType();
         if (type instanceof Class) {
-            try {
-                T data = gson.fromJson(new String(message.getBody()), type);
-                return data;
-            } catch (JsonSyntaxException e) {
-                log.error("parse message json fail : {}", e.getMessage());
-            }
+			// try {
+			T data = JSONObject.parseObject(new String(message.getBody()),type);
+			// T data = gson.fromJson(new String(message.getBody()), type);
+			return data;
+			// } catch (JsonSyntaxException e) {
+			// log.error("parse message json fail : {}", e.getMessage());
+			// }
         } else {
             log.warn("Parse msg error. {}", message);
         }

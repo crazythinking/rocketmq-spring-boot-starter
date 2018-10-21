@@ -21,6 +21,13 @@ public abstract class AbstractMQTransactionProducer implements TransactionListen
         this.transactionProducer = transactionProducer;
     }
 
+    /**
+     * 发送支持事务的消息
+     * @param msg	Transactional message to send.
+     * @param arg	Argument used along with local transaction executor.
+     * @return
+     * @throws MQException
+     */
     public SendResult sendMessageInTransaction(Message msg, Object arg) throws MQException {
         try {
             SendResult sendResult = transactionProducer.sendMessageInTransaction(msg, arg);

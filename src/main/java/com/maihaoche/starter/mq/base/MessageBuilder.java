@@ -1,22 +1,24 @@
 package com.maihaoche.starter.mq.base;
 
-import com.google.gson.Gson;
-import com.maihaoche.starter.mq.annotation.MQKey;
-import com.maihaoche.starter.mq.enums.DelayTimeLevel;
-import lombok.Data;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.rocketmq.common.message.Message;
-
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.nio.charset.Charset;
+
+import org.apache.commons.lang3.StringUtils;
+import org.apache.rocketmq.common.message.Message;
+
+import com.alibaba.fastjson.JSON;
+import com.maihaoche.starter.mq.annotation.MQKey;
+import com.maihaoche.starter.mq.enums.DelayTimeLevel;
+
+import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 
 @Data
 @Slf4j
 public class MessageBuilder {
 
-    private static Gson gson = new Gson();
+//    private static Gson gson = new Gson();
 
     private static final String[] DELAY_ARRAY = "1s 5s 10s 30s 1m 2m 3m 4m 5m 6m 7m 8m 9m 10m 20m 30m 1h 2h".split(" ");
 
@@ -78,7 +80,8 @@ public class MessageBuilder {
         } catch (Exception e) {
             log.error("parse key error : {}" , e.getMessage());
         }
-        String str = gson.toJson(message);
+		String str = JSON.toJSONString(message);
+		// String str = gson.toJson(message);
         if(StringUtils.isEmpty(topic)) {
             if(StringUtils.isEmpty(getTopic())) {
                 throw new RuntimeException("no topic defined to send this message");

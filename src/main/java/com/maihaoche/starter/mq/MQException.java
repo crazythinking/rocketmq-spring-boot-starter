@@ -5,7 +5,10 @@ package com.maihaoche.starter.mq;
  * RocketMQ的自定义异常
  */
 public class MQException extends RuntimeException {
-    public MQException(String msg) {
+
+	private static final long serialVersionUID = 1L;
+
+	public MQException(String msg) {
         super(msg);
     }
 }
